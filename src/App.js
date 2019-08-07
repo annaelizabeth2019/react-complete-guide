@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import "./App.css";
+import classes from "./App.css";
 import Person from "./Person/Person";
+import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
 
 class App extends Component {
   state = {
@@ -50,40 +51,42 @@ class App extends Component {
     };
 
     let persons = null;
+    let btnClass = "";
 
     if (this.state.showPersons) {
       persons = (
         <div>
           {this.state.persons.map((person, index) => {
             return (
-              <Person
-                key={person.id}
-                name={person.name}
-                age={person.age}
-                changed={event => this.nameChangeHandler(event, person.id)}
-                click={() => this.deletePersonHandler(index)}
-              />
+              <ErrorBoundary key={person.id}>
+                <Person
+                  name={person.name}
+                  age={person.age}
+                  changed={event => this.nameChangeHandler(event, person.id)}
+                  // click={() => this.deletePersonHandler(index)}
+                />
+              </ErrorBoundary>
             );
           })}
         </div>
       );
 
       style.backgroundColor = "red";
-      style[":hover"] = {
-        color: "black",
-        backgroundColor: "pink"
-      };
+      btnClass = classes.Red;
     }
 
-    let classes = [];
-    if (this.state.persons.length <= 2) classes.push("red");
-    if (this.state.persons.length <= 1) classes.push("bold");
+    let assignedClasses = [];
+    if (this.state.persons.length <= 2) assignedClasses.push(classes.red);
+    if (this.state.persons.length <= 1) assignedClasses.push(classes.bold);
 
     return (
-      <div className="App">
+      <div className={classes.App}>
         <h1>Hi I'm a React App</h1>
-        <p className={classes.join(" ")}>This is really working!</p>
-        <button onClick={() => this.togglePersonsHandler()} style={style}>
+        <p className={assignedClasses.join(" ")}>This is really working!</p>
+        <button
+          className={btnClass}
+          onClick={() => this.togglePersonsHandler()}
+        >
           Toggle Names!
         </button>
         {persons}
@@ -92,4 +95,4 @@ class App extends Component {
   }
 }
 
-export default Radium(App);
+export default App;

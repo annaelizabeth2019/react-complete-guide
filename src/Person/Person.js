@@ -1,11 +1,13 @@
 import React from "react";
-import "./Person.css";
-import Radium from "radium";
+import classes from "./Person.css";
 
 const person = props => {
-
+  const rnd = Math.random();
+  if (rnd > 0.7) {
+    throw new Error("Something went wrong!");
+  }
   return (
-    <div onClick={props.click} className="Person"
+    <div onClick={props.click} className={classes.Person}>
       <p>
         I'm a Person! and I am {props.age} years old and my name is {props.name}
       </p>
@@ -13,7 +15,6 @@ const person = props => {
       <input type="text" onChange={props.changed} value={props.name} />
     </div>
   );
-  return;
 };
 
-export default Radium(person);
+export default person;
