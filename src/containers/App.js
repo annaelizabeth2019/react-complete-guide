@@ -5,6 +5,10 @@ import Cockpit from "../components/Cockpit/Cockpit";
 // import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    console.log("[App.js] contstructor");
+  }
   state = {
     persons: [
       { name: "Anna", age: 30, id: 1 },
@@ -14,11 +18,20 @@ class App extends Component {
     showPersons: false
   };
 
+  static getDerivedStateFromProps(props, state) {
+    console.log("[App.js] getDerivedStateFromProps", props);
+    return state;
+  }
+
   deletePersonHandler = personIndex => {
     const persons = [...this.state.persons];
     persons.splice(personIndex, 1);
     return this.setState({ persons: persons });
   };
+
+  componentDidMount() {
+    console.log("componentdidmount");
+  }
 
   nameChangeHandler = (event, id) => {
     const personIndex = this.state.persons.findIndex(p => {
@@ -42,6 +55,7 @@ class App extends Component {
   };
 
   render() {
+    console.log("App.js render");
     const style = {
       backgroundColor: "green",
       color: "white",
@@ -52,7 +66,6 @@ class App extends Component {
     };
 
     let persons = null;
-    let btnClass = "";
 
     if (this.state.showPersons) {
       persons = (
@@ -69,6 +82,7 @@ class App extends Component {
     return (
       <div className={classes.App}>
         <Cockpit
+          title={this.props.appTitle}
           showPersons={this.state.showPersons}
           persons={this.state.persons}
           clicked={this.togglePersonsHandler}

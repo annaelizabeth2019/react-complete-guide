@@ -2,6 +2,7 @@ import React from "react";
 import classes from "./Person.css";
 
 const person = props => {
+  console.log("App.js person");
   return (
     <div onClick={props.click} className={classes.Person}>
       <p>
