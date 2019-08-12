@@ -3,6 +3,7 @@ import classes from "./App.css";
 import Persons from "../components/Persons/Persons";
 import Cockpit from "../components/Cockpit/Cockpit";
 import withClass from "../hoc/WithClass";
+import AuthContext from "../context/auth-context";
 // import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 
 class App extends Component {
@@ -62,6 +63,10 @@ class App extends Component {
     this.setState({ showPersons: !doesShow });
   };
 
+  loginHandler = () => {
+    this.setState({ authenticated: true });
+  };
+
   render() {
     console.log("App.js render");
     const style = {
@@ -89,13 +94,21 @@ class App extends Component {
 
     return (
       <div classes={classes.App}>
-        <Cockpit
-          title={this.props.appTitle}
-          showPersons={this.state.showPersons}
-          persons={this.state.persons.length}
-          clicked={this.togglePersonsHandler}
-        />
-        {persons}
+        <AuthContext.Provider
+          value={{
+            authenticated: this.state.authenticated,
+            login: this.loginHandler
+          }}
+        >
+          <Cockpit
+            title={this.props.appTitle}
+            showPersons={this.state.showPersons}
+            persons={this.state.persons.length}
+            clicked={this.togglePersonsHandler}
+            login={this.loginHandler}
+          />
+          {persons}
+        </AuthContext.Provider>
       </div>
     );
   }
