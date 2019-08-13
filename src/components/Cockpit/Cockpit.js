@@ -1,10 +1,13 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import classes from "./Cockpit.css";
+import AuthContext from "../../context/auth-context";
 // import AuthContext from "../../context/auth-context"
 
 const Cockpit = props => {
   const toggleBtnRef = useRef(null);
+  const authContext = useContext(AuthContext);
 
+  console.log(authContext.authenticated);
   useEffect(() => {
     toggleBtnRef.current.click();
   }, []);
